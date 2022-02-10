@@ -47,4 +47,17 @@ if (global_is_plugin_active('advanced-woo-labels/advanced-woo-labels.php')) {
         return $value;
     }
 
+    /**
+     * Add pre-order identification class to product classes
+     */
+    if (global_is_plugin_active('pre-orders-for-woocommerce/main.php')) {
+        add_filter( 'woocommerce_post_class', function($classes, $product_id) {
+            $p = new \Woocommerce_Preorders\Product($product_id);
+            if ($p->isPreOrder()) {
+                $classes[] = 'pre-order';
+            }
+
+            return $classes;
+        }, 10, 2 );
+    }
 }
